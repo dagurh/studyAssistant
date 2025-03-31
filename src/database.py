@@ -6,13 +6,17 @@ from bson import ObjectId
 from bson.errors import InvalidId
 import os
 
-load_dotenv()
+env_file = ".env.test" if os.getenv("TESTING") else ".env"
+load_dotenv(env_file)
 
 mongo_uri = os.getenv("MONGO_URI")
+coll_name = os.getenv("MONGO_COLL_NAME")
+
+print(coll_name)
 
 client = MongoClient(mongo_uri, server_api=ServerApi('1'))
 db = client["vef2-e1"]
-collection = db["studyAssistant"]
+collection = db[coll_name]
 
 async def insertIntoDB(doc):
     try:

@@ -10,9 +10,6 @@ class Course(BaseModel):
     type: Literal["course"] = "course"
     course: str
     title: str
-    
-    class Config:
-        extra = "allow"
 
 class CourseFilter(FilterBaseModel):
     type: Literal["course"] = "course"
@@ -38,3 +35,15 @@ class NoteUpdate(FilterBaseModel):
     title: Optional[str] = None
     chapter: Optional[int] = None
     text: Optional[str] = None
+
+class SummaryFilter(FilterBaseModel):
+    type: Literal["summary"] = "summary"
+    course: Optional[str] = None
+    title: Optional[str] = None
+    chapter: Optional[int] = None
+
+class PracticeTestFilter(FilterBaseModel):
+    type: Literal["practice_test"] = "practice_test"
+    course: Optional[str] = None
+    title: Optional[str] = None
+    chapter: Optional[int] = None

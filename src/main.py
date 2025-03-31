@@ -5,7 +5,7 @@ from fastapi import FastAPI, Query, Request, Depends, HTTPException, status
 from database import insertIntoDB, queryDB, deleteFromDB,  updateDB
 from openaiAPI import generate_test_from_notes, generate_summary_from_notes
 from jsonPayload import practice_test_payload, summary_payload
-from models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate
+from models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate, SummaryFilter, PracticeTestFilter
 
 app = FastAPI()
 
@@ -17,6 +17,8 @@ async def add_process_time_header(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     return response
 
+#GET requests
+
 @app.get("/")
 def read_root():
     return {"Head over to /docs for API documentation"}
@@ -25,25 +27,31 @@ def read_root():
 async def getCourses(courseFilter: CourseFilter = Depends()):
     filter_dict = courseFilter.filter_dict()
     result = await queryDB(filter_dict)
+
     return {"message": "Query successful", "courses": result}
 
 @app.get("/notes/", status_code=200)
 async def getNotes(noteFilter: NoteFilter = Depends()):
     filter_dict = noteFilter.filter_dict()
     result = await queryDB(filter_dict)
+
     return {"message": "Query successful", "notes": result}
 
 @app.get("/summaries/", status_code=200)
-async def getNotes():
-    # TODO: Implement this endpoint to return summaries
-    return {"GET summaries called"}
+async def getSummaries(summaryFilter: SummaryFilter = Depends()):
+    filter_dict = summaryFilter.filter_dict()
+    result = await queryDB(filter_dict)
+    
+    return {"message": "Query successful", "summaries": result}
 
 @app.get("/practicetests/", status_code=200)
-async def getNotes():
-    # TODO: Implement this endpoint to return practice tests
-    return {"GET practicetests called"}
+async def getPracticeTests(practiceTestFilter: PracticeTestFilter = Depends()):
+    filter_dict = practiceTestFilter.filter_dict()
+    result = await queryDB(filter_dict)
+    
+    return {"message": "Query successful", "practicetests": result}
 
-
+#POST requests
 
 @app.post("/courses", status_code=201)
 async def postCourses(course_data: Course):
@@ -99,6 +107,8 @@ async def generate_summaries(noteFilter: NoteFilter):
 
     return {"message": "Query successful", "inserted": payload}
 
+#PATCH requests
+
 @app.patch("/courses/{id}", status_code=200)
 async def patchNotes(id: str, course: Course):
     course_dict = course.model_dump()
@@ -120,6 +130,8 @@ async def patchNotes(id: str, noteUpdate: NoteUpdate):
     if status_code == 404:
         raise HTTPException(status_code=404, detail=result["message"])
     return result
+
+#DELETE requests
 
 @app.delete("/{id}")
 async def delete_note(id: str):
