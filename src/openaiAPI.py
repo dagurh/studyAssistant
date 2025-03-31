@@ -10,6 +10,7 @@ def generate_test_from_notes(notes: list[str], numOfQuestions: int) -> list[dict
 
   prompt = f"""
   Based on the following notes, generate {numOfQuestions} questions and answers in JSON format. Each item should look like: {{"question": "...", "answer": "..."}}
+  Your response as a WHOLE should be parsable JSON.
   Notes:
   {combined_notes}
   """
@@ -31,13 +32,14 @@ def generate_test_from_notes(notes: list[str], numOfQuestions: int) -> list[dict
   except Exception as e:
     print(f"Error parsing JSON: {e}")
     print(f"Response content: {content}")
-    return []
+    return ["chatGPT was unable to give a response in parsable JSON format."]
   
 def generate_summary_from_notes(notes: list[str]) -> str:
   combined_notes = "\n".join(notes)
 
   prompt = f"""
   Based on the following notes, generate a summary in JSON format. The summary should be concise and cover all the main points.
+  Your response as a WHOLE should be parsable JSON.
   Notes:
   {combined_notes}
   """

@@ -5,7 +5,7 @@ from fastapi import FastAPI, Query, Request, Depends, HTTPException, status
 from database import insertIntoDB, queryDB, deleteFromDB,  updateDB
 from openaiAPI import generate_test_from_notes, generate_summary_from_notes
 from jsonPayload import practice_test_payload, summary_payload
-from models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate, SummaryFilter, PracticeTestFilter
+from models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate, SummaryFilter, PracticeTestFilter, NoteTests
 
 app = FastAPI()
 
@@ -28,6 +28,9 @@ async def getCourses(courseFilter: CourseFilter = Depends()):
     filter_dict = courseFilter.filter_dict()
     result = await queryDB(filter_dict)
 
+    if result == []:
+        raise HTTPException(status_code=404, detail="No courses found for the given filter")
+
     return {"message": "Query successful", "courses": result}
 
 @app.get("/notes/", status_code=200)
@@ -35,12 +38,18 @@ async def getNotes(noteFilter: NoteFilter = Depends()):
     filter_dict = noteFilter.filter_dict()
     result = await queryDB(filter_dict)
 
+    if result == []:
+        raise HTTPException(status_code=404, detail="No notes found for the given filter")
+
     return {"message": "Query successful", "notes": result}
 
 @app.get("/summaries/", status_code=200)
 async def getSummaries(summaryFilter: SummaryFilter = Depends()):
     filter_dict = summaryFilter.filter_dict()
     result = await queryDB(filter_dict)
+
+    if result == []:
+        raise HTTPException(status_code=404, detail="No summaries found for the given filter")
     
     return {"message": "Query successful", "summaries": result}
 
@@ -48,6 +57,9 @@ async def getSummaries(summaryFilter: SummaryFilter = Depends()):
 async def getPracticeTests(practiceTestFilter: PracticeTestFilter = Depends()):
     filter_dict = practiceTestFilter.filter_dict()
     result = await queryDB(filter_dict)
+
+    if result == []:
+        raise HTTPException(status_code=404, detail="No practice tests found for the given filter")
     
     return {"message": "Query successful", "practicetests": result}
 
@@ -71,13 +83,16 @@ async def postNotes(note: Note):
 
 @app.post("/practicetests", status_code=201)
 async def generate_practicetests(
-    noteFilter: NoteFilter,
+    noteTests: NoteTests,
     num_questions: int = Query(5, ge=1, le=10)
     ):
 
-    filter_dict = noteFilter.filter_dict()
+    filter_dict = noteTests.filter_dict()
 
     result = await queryDB(filter_dict)
+
+    if result == []:
+        raise HTTPException(status_code=404, detail="No notes found for the given filter")
 
     texts = [note["text"] for note in result]
 
@@ -95,6 +110,9 @@ async def generate_summaries(noteFilter: NoteFilter):
     filter_dict = noteFilter.filter_dict()
 
     result = await queryDB(filter_dict)
+
+    if result == []:
+        raise HTTPException(status_code=404, detail="No notes found for the given filter")
 
     texts = [note["text"] for note in result]
 
