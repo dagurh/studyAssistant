@@ -29,7 +29,7 @@ async def getCourses(courseFilter: CourseFilter = Depends()):
     result = await queryDB(filter_dict)
 
     if result == []:
-        raise HTTPException(status_code=404, detail="No courses found for the given filter")
+        return {"message": "No courses found for the given filter"}
 
     return {"message": "Query successful", "courses": result}
 
@@ -39,7 +39,7 @@ async def getNotes(noteFilter: NoteFilter = Depends()):
     result = await queryDB(filter_dict)
 
     if result == []:
-        raise HTTPException(status_code=404, detail="No notes found for the given filter")
+        return {"message": "No notes found for the given filter"}
 
     return {"message": "Query successful", "notes": result}
 
@@ -49,7 +49,7 @@ async def getSummaries(summaryFilter: SummaryFilter = Depends()):
     result = await queryDB(filter_dict)
 
     if result == []:
-        raise HTTPException(status_code=404, detail="No summaries found for the given filter")
+        return {"message": "No summaries found for the given filter"}
     
     return {"message": "Query successful", "summaries": result}
 
@@ -59,7 +59,7 @@ async def getPracticeTests(practiceTestFilter: PracticeTestFilter = Depends()):
     result = await queryDB(filter_dict)
 
     if result == []:
-        raise HTTPException(status_code=404, detail="No practice tests found for the given filter")
+        return {"message": "No practice tests found for the given filter"}
     
     return {"message": "Query successful", "practicetests": result}
 

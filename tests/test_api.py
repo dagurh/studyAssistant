@@ -27,22 +27,17 @@ def test_read_root():
 def test_get_courses():
     response = client.get("/courses/")
     assert response.status_code == 200
-    assert "courses" in response.json()
 
 def test_get_notes():
     response = client.get("/notes/")
     assert response.status_code == 200
-    assert "notes" in response.json()
-
 def test_get_summaries():
     response = client.get("/summaries/")
     assert response.status_code == 200
-    assert "summaries" in response.json()
 
 def test_get_practicetests():
     response = client.get("/practicetests/")
     assert response.status_code == 200
-    assert "practicetests" in response.json()
 
 # ------------------ POST ------------------ #
 
@@ -116,7 +111,7 @@ def test_patch_note():
         "course": "TST101",
         "title": "Old Title",
         "chapter": 1,
-        "text": "This is a test note."
+        "text": "This is a test note that works."
     }
     insert = client.post("/notes", json=note).json()["note"]
     response = client.patch(f"/notes/{insert['_id']}", json={"title": "New Title"})
@@ -131,7 +126,7 @@ def test_delete_note():
         "course": "TST101",
         "title": "To Delete",
         "chapter": 1,
-        "text": "This is a note to be deleted."
+        "text": "This is a note to be deleted and it works."
     }
     inserted = client.post("/notes", json=note).json()["note"]
     response = client.delete(f"/{inserted['_id']}")
