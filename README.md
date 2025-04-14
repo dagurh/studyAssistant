@@ -4,8 +4,8 @@
 
 [Fyrri skil](FyrriSkil.md)
 
-TEST aðgangur
-email: test@test.is
-password: 12345678
+TEST aðgangur 
+email: test@test.is  
+password: 12345678  
 
-[text](https://studyassistant-wjm9.onrender.com)
+[Study Assistant API](https://studyassistant-wjm9.onrender.com)
