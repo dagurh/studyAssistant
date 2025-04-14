@@ -5,3 +5,4 @@ venv/
 .env
 .env.test
 *.http
+pytest.ini

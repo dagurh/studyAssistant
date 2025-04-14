@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
 from typing import Literal, Optional
 from fastapi import Query
 
@@ -163,5 +163,31 @@ class PracticeTestFilter(FilterBaseModel):
         default=None,
         ge=0, 
         le=100
+        )
+    
+class UserCreate(StrictBaseModel):
+    email: EmailStr = Field(
+        min_length=5, 
+        max_length=50
+        )
+    password: str = Field(
+        min_length=8, 
+        max_length=100
+        )
+    
+class UserLogin(BaseModel):
+    email: EmailStr = Field(
+        min_length=5, 
+        max_length=50
+        )
+    password: str = Field(
+        min_length=8, 
+        max_length=100
+        )
+    
+class UserInDB(UserCreate):
+    hashed_password: str = Field(
+        min_length=8, 
+        max_length=100
         )
     
