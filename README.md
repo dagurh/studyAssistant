@@ -4,7 +4,7 @@
 
 [Fyrri skil](FyrriSkil.md)
 
-TEST aðgangur 
+TEST aðgangur  
 email: test@test.is  
 password: 12345678  
 
