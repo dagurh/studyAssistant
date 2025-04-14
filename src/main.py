@@ -3,12 +3,12 @@ import time
 
 from fastapi import FastAPI, Query, Request, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from database import insertIntoDB, queryDB, deleteFromDB,  updateDB, getUserByEmail, saveUser
+from src.database import insertIntoDB, queryDB, deleteFromDB,  updateDB, getUserByEmail, saveUser
 from openaiAPI import generate_test_from_notes, generate_summary_from_notes
 from jsonPayload import practice_test_payload, summary_payload
-from models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate, SummaryFilter, PracticeTestFilter, NoteTests, UserCreate, UserLogin
-from auth.utils import hash_password, verify_password, create_access_token
-from auth.protected import get_current_user
+from src.models.models import Course, Note, NoteFilter, CourseFilter, NoteUpdate, SummaryFilter, PracticeTestFilter, NoteTests, UserCreate, UserLogin
+from src.auth.utils import hash_password, verify_password, create_access_token
+from src.auth.protected import get_current_user
 from datetime import timedelta
 
 app = FastAPI()
