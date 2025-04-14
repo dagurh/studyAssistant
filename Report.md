@@ -26,3 +26,6 @@ Til að byrja með gekk mjög illa að prófa að senda inn beiðnir á endapunk
 
 Hvað var áhugavert.
 Það var áhugavert að nota OpenAI API og gefa því rétta skipun til þess að skila einhverju frá sér á þæginlegu JSON formatti. Ég lenti í smá stríði við það á tímapunkti
+
+Framhaldið.
+Ég vil byggja framenda sem notar þennan API. Framendinn verður byggður í React og sett fram á einkaléni. Þar verður bæði hægt að skoða demo af vefsíðunni ásamt því að búa til aðgang og nota hana eins og ætlað er.
