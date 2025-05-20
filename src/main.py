@@ -3,6 +3,7 @@ import time
 
 from fastapi import FastAPI, Query, Request, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from src.database import insertIntoDB, queryDB, deleteFromDB,  updateDB, getUserByEmail, saveUser
 from src.openaiAPI import generate_test_from_notes, generate_summary_from_notes
 from src.jsonPayload import practice_test_payload, summary_payload
@@ -12,6 +13,14 @@ from src.auth.protected import get_current_user
 from datetime import timedelta
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Or ["*"] for dev
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
